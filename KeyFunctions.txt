@@ -1,0 +1,52 @@
+Camera Properties
+---------------------
+camera.fieldofview
+camera.aspect(float value)
+camera.depth(float value)
+camera.farclipplane(float value)
+
+Camera Functions
+---------------------
+RemoveAllCommandBuffers
+ResetAspect()
+ResetFieldOfView()
+ResetAspect()
+ResetFieldOfView()
+ResetProjectionMatrix()
+ResetReplacementShader()
+ResetStereoProjectionMatrices()
+ResetStereoViewMatrices()
+ResetWorldToCameraMatrix()
+
+SeinCharacter
+----------------------
+SeinCharacter.ResetAirLimits()
+SeinCharacter.PlaceOnGround()
+
+SeinController Methods
+----------------------
+SeinController.EnterPlayingAnimation()
+SeinController.HandleJumping()
+SeinController.HandleOffscreenIssue()
+SeinController.OnGoThroughPortal()
+SeinController.PerformJump()
+SeinController.ShouldAnimationKeepPlaying()
+SeinController.StopAnimation()
+SeinController.UpdateMovementStuff()
+SeinController.UpdateOriActivateState()
+
+SeinController Properties
+----------------------
+SeinController.IsPlayingAnimation([optional: bool value])
+SeinController.IgnoreControllerInput([optional: bool value])
+SeinController.InputLocked([optional: bool value])
+SeinController.LockMovementInput([optional: bool value])
+
+DebugB
+-----------------------
+DebugB.SuspendGameplay()
+DebugB.ResumeGameplay()
+
+Teleporter Controller
+------------------------
+TeleporterController.BeginTeleportation(int index)
