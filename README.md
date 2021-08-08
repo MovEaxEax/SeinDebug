@@ -3,7 +3,7 @@ Extented debug modification for Ori and the Blind Forest: Defenitive Edition
 
 Replace the Assembly-CSharp.dll with your one in the "../steam/steamapps/common/Ori DE/oriDE_DataOri/Managed" folder. Make sure to backup you old one, so you can deactivate it again if you want to.
 
-Ingame you open the Debug Menu with NUMPAD_0 or with F10. Navigate with mouseclicks on what you want.
+Ingame you open the Debug Menu with NUMPAD_0 or with F10. Navigate with mouseclicks on what you want. Object Debug is active, you can select objects with left click and move them with right click. Lock their position with Left-ALT-Key.
 
 The Mod creates a settings file for keybinding in "../steam/steamapps/common/Ori DE/xNyuDebug/key_settings.txt", where you can set specific functions for your hotkeys with parameter and stuff. List of all available functions are listed in the KeyFunctions.txt.
 
