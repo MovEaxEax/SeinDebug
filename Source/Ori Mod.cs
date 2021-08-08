@@ -24,11 +24,11 @@ public class xNyuDebugMenu : MonoBehaviour
 			GUI.color = new Color(1f, 1f, 1f, 1f);
 
 			CameraController DrawCam = UnityEngine.Object.FindObjectOfType<CameraController>();
-			GUI.Toggle(new Rect(DebugDrawX - 100f, DebugDrawY - 100f, 400f, 20f * scr_scale_h), xnyu_details_toggles[0], "World: " + Directory.GetCurrentDirectory(), font_purple);
+			//GUI.Toggle(new Rect(DebugDrawX - 100f, DebugDrawY - 100f, 400f, 20f * scr_scale_h), xnyu_details_toggles[0], "World: " + debug_string, font_purple);
 
 			//Title and Version
 			GUI.Toggle(new Rect(DebugDrawX - (90f * scr_scale_w), 150f * scr_scale_h, 400f, 30f), xnyu_details_toggles[0], "Sein Debugger by xNyu", font_title_red);
-			GUI.Toggle(new Rect(DebugDrawX - (25f * scr_scale_w), 195f * scr_scale_h, 400f, 30f), xnyu_details_toggles[0], "Version 1.0", font_title_yellow);
+			GUI.Toggle(new Rect(DebugDrawX - (25f * scr_scale_w), 195f * scr_scale_h, 400f, 30f), xnyu_details_toggles[0], "Version 1.1", font_title_yellow);
 
 			//Draw Details Options
 			GUI.Toggle(new Rect(500f * scr_scale_w, DebugDrawY, 400f, 20f * scr_scale_h), xnyu_details_toggles[0], "Enable Details (Click to toggle)", xnyu_details_toggles[0] ? font_yellow : font_white);
@@ -43,10 +43,7 @@ public class xNyuDebugMenu : MonoBehaviour
 
 			//Draw Debug Options
 			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY, 400f, 20f * scr_scale_h), xnyu_details_toggles[0], "Enable Debugtext (Click to toggle)", xnyu_debug_toggles[0] ? font_yellow : font_white);
-			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY + 20f * scr_scale_h, 200f, 20f * scr_scale_h), xnyu_details_toggles[1], "Door Debugtext", xnyu_debug_toggles[0] ? (xnyu_debug_toggles[1] ? font_green : font_red) : font_gray);
-			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY + 40f * scr_scale_h, 200f, 20f * scr_scale_h), xnyu_details_toggles[2], "Teleporter Debugtext", xnyu_debug_toggles[0] ? (xnyu_debug_toggles[2] ? font_green : font_red) : font_gray);
-			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY + 60f * scr_scale_h, 200f, 20f * scr_scale_h), xnyu_details_toggles[4], "Enemy Debugtext", xnyu_debug_toggles[0] ? (xnyu_debug_toggles[4] ? font_green : font_red) : font_gray);
-			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY + 80f * scr_scale_h, 200f, 20f * scr_scale_h), xnyu_details_toggles[4], "Collectable Debugtext", xnyu_debug_toggles[0] ? (xnyu_debug_toggles[5] ? font_green : font_red) : font_gray);
+			GUI.Toggle(new Rect(80f * scr_scale_w, DebugDrawY + 20f * scr_scale_h, 200f, 20f * scr_scale_h), xnyu_details_toggles[1], "Gameobject Debug (Text/Control)", xnyu_debug_toggles[0] ? (xnyu_debug_toggles[1] ? font_green : font_red) : font_gray);
 
 			//Keybindings
 			GUI.Label(new Rect(920f * scr_scale_w, DebugDrawY + 0f* scr_scale_h, 400f * scr_scale_w, 20f * scr_scale_h), "Keybindings (Click to toggle)",  key_binding_toggle ? font_yellow : font_white);
@@ -126,74 +123,13 @@ public class xNyuDebugMenu : MonoBehaviour
 
 			}
 
-			//Enemy Debug Data
-			if(GlobalEnemyDebug){
-				foreach(xNyuDebugEnemyData enemy in GlobalEnemyList){
-					if(enemy.DrawPosition.x > 0 && enemy.DrawPosition.x < width && enemy.DrawPosition.y > 0 && enemy.DrawPosition.y < height){
-						Vector3 DrawCoords = WorldCameraDraw.WorldToScreenPoint(enemy.Positiony);
-						GUI.color = new Color(1f, 1f, 1f, 1f);
-						GUI.Box(new Rect(DrawCoords.x, Screen.height - DrawCoords.y, 150f * scr_scale_w, 80f * scr_scale_h), "");
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 5f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.CurrentPosition, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 15f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.StartPosition, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 25f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.Damage, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 35f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.DamagePlayerOnly, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 45f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.FrustumOptimized, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 55f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.InsideFrustum, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 65f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), enemy.IsInWater, font_dbg_blue);
-					}
-				}
+			//Global Object Debug Data
+			if(GlobalObjectDebugTrigger && GlobalObjectDebug != null && GlobalObjectDebugText.Count > 0){
+				Vector3 DrawCoordsy = WorldCameraDraw.WorldToScreenPoint(GlobalObjectDebug.transform.position);
+				GUI.color = new Color(1f, 1f, 1f, 1f);
+				GUI.Box(new Rect(DrawCoordsy.x, Screen.height - DrawCoordsy.y, 150f * scr_scale_w, 80f * scr_scale_h), "");
+				for(int i = 0; i < GlobalObjectDebugText.Count; i++) GUI.Label(new Rect(DrawCoordsy.x + 5f, Screen.height - DrawCoordsy.y + (5f + ((float)i*10f)) * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), GlobalObjectDebugText[i], font_dbg_blue);
 			}
-
-			//Door Debug Data
-			if(GlobalDoorDebug){
-				foreach(xNyuDebugDoorData door in GlobalDoorList){
-					if(door.DrawPosition.x > 0 && door.DrawPosition.x < width && door.DrawPosition.y > 0 && door.DrawPosition.y < height){
-						Vector3 DrawCoords = WorldCameraDraw.WorldToScreenPoint(door.Positiony);
-						GUI.color = new Color(1f, 1f, 1f, 1f);
-						GUI.Box(new Rect(DrawCoords.x, Screen.height - DrawCoords.y, 150f * scr_scale_w, 70f * scr_scale_h), "");
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 5f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.Position, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 15f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.val1, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 25f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.val2, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 35f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.val3, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 45f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.val4, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 55f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), door.val5, font_dbg_blue);
-					}
-				}
-			}
-
-			//Teleporter Debug Data
-			if(GlobalTeleporterDebug){
-				foreach(xNyuDebugTeleporterData teleporter in GlobalTeleporterList){
-					if(teleporter.DrawPosition.x > 0 && teleporter.DrawPosition.x < width && teleporter.DrawPosition.y > 0 && teleporter.DrawPosition.y < height){
-						Vector3 DrawCoords = WorldCameraDraw.WorldToScreenPoint(teleporter.Positiony);
-						GUI.color = new Color(1f, 1f, 1f, 1f);
-						GUI.Box(new Rect(DrawCoords.x, Screen.height - DrawCoords.y, 210f * scr_scale_w, 60f * scr_scale_h), "");
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 5f * scr_scale_h, 150f * scr_scale_w, 10f * scr_scale_h), teleporter.Position, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 15f * scr_scale_h, 150f * scr_scale_w, 10f * scr_scale_h), teleporter.val1, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 25f * scr_scale_h, 150f * scr_scale_w, 10f * scr_scale_h), teleporter.val2, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 35f * scr_scale_h, 150f * scr_scale_w, 10f * scr_scale_h), teleporter.val3, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 45f * scr_scale_h, 150f * scr_scale_w, 10f * scr_scale_h), teleporter.val4, font_dbg_blue);
-					}
-				}
-			}
-
-			//Collectable Debug Data
-			if(GlobalCollectablesDebug){
-				foreach(xNyuDebugCollectableData collectable in GlobalCollectableList){
-					if(collectable.DrawPosition.x > 0 && collectable.DrawPosition.x < width && collectable.DrawPosition.y > 0 && collectable.DrawPosition.y < height){
-						Vector3 DrawCoords = WorldCameraDraw.WorldToScreenPoint(collectable.Positiony);
-						GUI.color = new Color(1f, 1f, 1f, 1f);
-						GUI.Box(new Rect(DrawCoords.x, Screen.height - DrawCoords.y, 150f * scr_scale_w, 70f * scr_scale_h), "");
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 5f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.Position, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 15f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.val1, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 25f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.val2, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 35f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.val3, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 45f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.val4, font_dbg_blue);
-						GUI.Label(new Rect(DrawCoords.x + 5f, Screen.height - DrawCoords.y + 55f * scr_scale_h, 130f * scr_scale_w, 10f * scr_scale_h), collectable.val5, font_dbg_blue);
-					}
-				}
-			}
-
 
 		}
 	}
@@ -241,10 +177,7 @@ public class xNyuDebugMenu : MonoBehaviour
 
 					//Debugtext
 					if(mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 400f * scr_scale_w && mouse.y < DebugDrawY + 20f * scr_scale_h && mouse.y > DebugDrawY) xnyu_debug_toggles[0] = !xnyu_debug_toggles[0];
-					if(xnyu_debug_toggles[0] && mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 200f * scr_scale_w && mouse.y < DebugDrawY + 40f * scr_scale_h && mouse.y > DebugDrawY + 20f * scr_scale_h) {xnyu_debug_toggles[1] = !xnyu_debug_toggles[1]; GlobalDoorDebugFirstInit = true;}
-					if(xnyu_debug_toggles[0] && mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 200f * scr_scale_w && mouse.y < DebugDrawY + 60f * scr_scale_h && mouse.y > DebugDrawY + 40f * scr_scale_h) {xnyu_debug_toggles[2] = !xnyu_debug_toggles[2]; GlobalTeleporterDebugFirstInit = true;}
-					if(xnyu_debug_toggles[0] && mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 200f * scr_scale_w && mouse.y < DebugDrawY + 80f * scr_scale_h && mouse.y > DebugDrawY + 60f * scr_scale_h) {xnyu_debug_toggles[4] = !xnyu_debug_toggles[4]; GlobalEnemyDebugFirstInit = true; GlobalEnemyDebugIndexCounter = 0;}
-					if(xnyu_debug_toggles[0] && mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 200f * scr_scale_w && mouse.y < DebugDrawY + 100f * scr_scale_h && mouse.y > DebugDrawY + 80f * scr_scale_h) {xnyu_debug_toggles[5] = !xnyu_debug_toggles[5]; GlobalCollectablesDebugFirstInit = true; GlobalCollectableDebugIndexCounter = 0;}
+					if(xnyu_debug_toggles[0] && mouse.x > 80f * scr_scale_w && mouse.x < 80f * scr_scale_w + 200f * scr_scale_w && mouse.y < DebugDrawY + 40f * scr_scale_h && mouse.y > DebugDrawY + 20f * scr_scale_h) {xnyu_debug_toggles[1] = !xnyu_debug_toggles[1];}
 
 					//Keybindings
 					if(mouse.x > 920f * scr_scale_w && mouse.x < 920f * scr_scale_w + 400f * scr_scale_w && mouse.y < DebugDrawY + 20f * scr_scale_h && mouse.y > DebugDrawY) key_binding_toggle = !key_binding_toggle;
@@ -322,17 +255,9 @@ public class xNyuDebugMenu : MonoBehaviour
 
 		//Set Debugtext Trigger
 		if(xnyu_debug_toggles[0]){
-			GlobalDoorDebug = xnyu_debug_toggles[1];
-			GlobalTeleporterDebug = xnyu_debug_toggles[2];
-			GlobalTreeDebug = xnyu_debug_toggles[3];
-			GlobalEnemyDebug = xnyu_debug_toggles[4];
-			GlobalCollectablesDebug = xnyu_debug_toggles[5];
+			GlobalObjectDebugTrigger = xnyu_debug_toggles[1];
 		}else{
-			GlobalDoorDebug = false;
-			GlobalTeleporterDebug = false;
-			GlobalTreeDebug = false;
-			GlobalEnemyDebug = false;
-			GlobalCollectablesDebug = false;
+			GlobalObjectDebugTrigger = false;
 		}
 
 		//Open Debug Menu
@@ -373,7 +298,7 @@ public class xNyuDebugMenu : MonoBehaviour
 
 
 		//Keybindings Call Functions
-		if(!xnyu_menu_enabled){
+		if(!xnyu_menu_enabled && key_binding_toggle){
 		if(Input.GetKey(KeyCode.Keypad1) && key_can_press[0]){
 			key_can_press[0] = HotkeyToFunc(key_settings[0]);
 		}else if(Input.GetKey(KeyCode.Keypad2) && key_can_press[1]){
@@ -614,254 +539,177 @@ public class xNyuDebugMenu : MonoBehaviour
 
 		}
 
-		CameraController WorldCam = UnityEngine.Object.FindObjectOfType<CameraController>();
+		//Details Slow Down
+		if(!xnyu_menu_enabled){
+			DetailsSlowDown++;
+			if(DetailsSlowDown == 2) DetailsSlowDown = 0;
+		}
 
-		//Prepare Enemy Debug Data
-		if(GlobalEnemyDebug && !xnyu_menu_enabled && GlobalEnemyDebugSlowDown == 0){
-			//Clear List
-			if(GlobalEnemyDebugIndexCounter == 0){
+		//CameraController WorldCam = UnityEngine.Object.FindObjectOfType<CameraController>();
 
-			if(GlobalEnemyList.Count > 0) GlobalEnemyList.Clear();
+		if(GlobalObjectDebugTrigger && !xnyu_menu_enabled){
+				Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
+				RaycastHit hit;
 
-			StarSlugEnemy[] star_slugs = FindObjectsOfType<StarSlugEnemy>();
-			foreach(StarSlugEnemy star_slug in star_slugs){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(star_slug.transform.position, star_slug.StartPosition, star_slug.DamageDealer.Damage, star_slug.DamageDealer.PlayerOnly, star_slug.InsideFrustum, star_slug.FrustrumOptimized, star_slug.IsInWater, star_slug.BoundingBox, WorldCam));
-			}
+				if(Input.GetMouseButtonDown(0))
+				{
+					if(!GlobalObjectDebugSelected)
+					{
+						if(Physics.Raycast(ray, out hit))
+						{
+							GlobalObjectDebug = hit.transform.gameObject;
+							GlobalObjectDebugSelected = true;
+						}
+					}
+					else
+					{
+						GlobalObjectDebug = null;
+						GlobalObjectDebugSelected = false;
+						if(Physics.Raycast(ray, out hit))
+						{
+							GlobalObjectDebug = hit.transform.gameObject;
+							GlobalObjectDebugSelected = true;
+						}
+					}
+				}
 
-			AcidSlugEnemy[] acid_slugs = FindObjectsOfType<AcidSlugEnemy>();
-			foreach(AcidSlugEnemy acid_slug in acid_slugs){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(acid_slug.transform.position, acid_slug.StartPosition, acid_slug.DamageDealer.Damage, acid_slug.DamageDealer.PlayerOnly, acid_slug.InsideFrustum, acid_slug.FrustrumOptimized, acid_slug.IsInWater, acid_slug.BoundingBox, WorldCam));
-			}
+				if(!GlobalObjectDebugSelected){
+					GlobalObjectDebug = null;
+					if(Physics.Raycast(ray, out hit))
+					{
+						GlobalObjectDebug = hit.transform.gameObject;
+					}
+				}else{
+					if(Input.GetMouseButton(1))
+					{
+						Plane plane = new Plane(Vector3.forward, Vector3.zero);
+						Vector3 planePosition;
+						var m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+						float enter;
+ 						if (plane.Raycast(m_ray, out enter))
+						{
+							planePosition = m_ray.GetPoint(enter);
+							GlobalObjectDebug.transform.position = planePosition;
+							if(GlobalObjectDebugMoveLock != Vector3.zero) GlobalObjectDebugMoveLock = planePosition;
+						}
+					}
+					if(GlobalObjectDebugMoveLock != Vector3.zero) GlobalObjectDebug.transform.position = GlobalObjectDebugMoveLock;
 
-			}
+					if(Input.GetKeyDown(KeyCode.LeftAlt)){
+						if(GlobalObjectDebugMoveLock == Vector3.zero){
+							GlobalObjectDebugMoveLock = GlobalObjectDebug.transform.position;
+						}else{
+							GlobalObjectDebugMoveLock = Vector3.zero;
+						}
+					}
+				}
 
-			if(GlobalEnemyDebugIndexCounter == 1){
+				if(GlobalObjectDebug != null){
+					if(GlobalObjectDebugText.Count > 0) GlobalObjectDebugText.Clear();
+					GlobalObjectDebugText.Add("Name: " + GlobalObjectDebug.name);
+					GlobalObjectDebugText.Add("Position: " + GlobalObjectDebug.transform.position.ToString());
+					GlobalObjectDebugText.Add("Angle: " + GlobalObjectDebug.transform.eulerAngles.ToString());
 
-			ArmouredRammingEnemy[] arm_rammings = FindObjectsOfType<ArmouredRammingEnemy>();
-			foreach(ArmouredRammingEnemy arm_ramming in arm_rammings){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(arm_ramming.transform.position, arm_ramming.StartPosition, arm_ramming.DamageDealer.Damage, arm_ramming.DamageDealer.PlayerOnly, arm_ramming.InsideFrustum, arm_ramming.FrustrumOptimized, arm_ramming.IsInWater, arm_ramming.BoundingBox, WorldCam));
-			}
+					if(GlobalObjectDebug.GetComponent<Enemy>() != null)
+					{
+						Enemy SpecificData = GlobalObjectDebug.GetComponent<Enemy>();
+						GlobalObjectDebugText.Add("Start Position: " + SpecificData.StartPosition.ToString());
+						GlobalObjectDebugText.Add("Facing Player: " + SpecificData.IsFacingPlayer.ToString());
+						GlobalObjectDebugText.Add("HP: " + SpecificData.DamageReciever.Health.ToString() + "/" + SpecificData.DamageReciever.MaxHealth.ToString());
+						GlobalObjectDebugText.Add("Bounce on Stomp: " + SpecificData.DamageReciever.BounceOnStomp.ToString());
+						GlobalObjectDebugText.Add("Moon GUID: " + SpecificData.MoonGuid.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<GameMapTeleporter>() != null)
+					{
+						GameMapTeleporter SpecificData = GlobalObjectDebug.GetComponent<GameMapTeleporter>();
+						GlobalObjectDebugText.Add("Map Icon Position: " + SpecificData.AreaMapIconPosition.ToString());
+						GlobalObjectDebugText.Add("Identifier: " + SpecificData.Identifier);
+						GlobalObjectDebugText.Add("Activated: " + SpecificData.Activated.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<DropPickup>() != null)
+					{
+						DropPickup SpecificData = GlobalObjectDebug.GetComponent<DropPickup>();
+						GlobalObjectDebugText.Add("Gravity: " + SpecificData.Gravity.ToString());
+						GlobalObjectDebugText.Add("State: " + SpecificData.CurrentState.ToString());
+						GlobalObjectDebugText.Add("Falling Duration: " + SpecificData.FallingDuration);
+						GlobalObjectDebugText.Add("Flash Duration: " + SpecificData.FlashDuration.ToString());
+						GlobalObjectDebugText.Add("Hover Duration: " + SpecificData.HoverDuration.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<MapStone>() != null)
+					{
+						MapStone SpecificData = GlobalObjectDebug.GetComponent<MapStone>();
+						GlobalObjectDebugText.Add("Radius: " + SpecificData.Radius.ToString());
+						GlobalObjectDebugText.Add("Distance to Sein: " + SpecificData.DistanceToSein.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<MaxHealthContainerPickup>() != null)
+					{
+						MaxHealthContainerPickup SpecificData = GlobalObjectDebug.GetComponent<MaxHealthContainerPickup>();
+						GlobalObjectDebugText.Add("Radius: " + SpecificData.Radius.ToString());
+						GlobalObjectDebugText.Add("Collect Delay: " + SpecificData.DelayBeforeCollectable.ToString());
+						GlobalObjectDebugText.Add("Destroy on Collect: " + SpecificData.DestroyOnCollect.ToString());
+						GlobalObjectDebugText.Add("Collected: " + SpecificData.IsCollected.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<MaxEnergyContainerPickup>() != null)
+					{
+						MaxEnergyContainerPickup SpecificData = GlobalObjectDebug.GetComponent<MaxEnergyContainerPickup>();
+						GlobalObjectDebugText.Add("Radius: " + SpecificData.Radius.ToString());
+						GlobalObjectDebugText.Add("Collect Delay: " + SpecificData.DelayBeforeCollectable.ToString());
+						GlobalObjectDebugText.Add("Destroy on Collect: " + SpecificData.DestroyOnCollect.ToString());
+						GlobalObjectDebugText.Add("Collected: " + SpecificData.IsCollected.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<Door>() != null)
+					{
+						Door SpecificData = GlobalObjectDebug.GetComponent<Door>();
+						GlobalObjectDebugText.Add("Create Checkpoint: " + SpecificData.CreateCheckpoint.ToString());
+						GlobalObjectDebugText.Add("Other Door Name: " + SpecificData.OtherDoorName.ToString());
+						GlobalObjectDebugText.Add("Scene Name: " + SpecificData.SceneRoot.MetaData.SceneName.ToString());
+						GlobalObjectDebugText.Add("Transitions Delay: " + SpecificData.TransitionDelay.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<SinMovingPlatform>() != null)
+					{
+						SinMovingPlatform SpecificData = GlobalObjectDebug.GetComponent<SinMovingPlatform>();
+						GlobalObjectDebugText.Add("Sein-Naru Combo: " + SpecificData.Direction.ToString());
+						GlobalObjectDebugText.Add("Dont Move When Deactivated: " + SpecificData.DontMoveWhenDeactivatedInitially.ToString());
+						GlobalObjectDebugText.Add("Offset: " + SpecificData.Offset.ToString());
+						GlobalObjectDebugText.Add("Period: " + SpecificData.Period.ToString());
+						GlobalObjectDebugText.Add("Range: " + SpecificData.Range.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<SequencePlatform>() != null)
+					{
+						SequencePlatform SpecificData = GlobalObjectDebug.GetComponent<SequencePlatform>();
+						GlobalObjectDebugText.Add("Visible at Start: " + SpecificData.VisibleAtStart.ToString());
+						GlobalObjectDebugText.Add("Next Platform Touch: " + SpecificData.NextPlatformOnTouch.ToString());
+						GlobalObjectDebugText.Add("Delay Next Platform: " + SpecificData.DelayToNextPlatformAppear.ToString());
+						GlobalObjectDebugText.Add("Vanish: " + SpecificData.Vanish.ToString());
+						GlobalObjectDebugText.Add("Vanish on Touch: " + SpecificData.VanishOnTouch.ToString());
+						GlobalObjectDebugText.Add("Delay to Vanish: " + SpecificData.DelayToVanish.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<SequencePlatformB>() != null)
+					{
+						SequencePlatformB SpecificData = GlobalObjectDebug.GetComponent<SequencePlatformB>();
+						GlobalObjectDebugText.Add("Visible at Start: " + SpecificData.VisibleAtStart.ToString());
+						GlobalObjectDebugText.Add("Next Platform: " + SpecificData.NextPlatform.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<Naru>() != null)
+					{
+						Naru SpecificData = GlobalObjectDebug.GetComponent<Naru>();
+						GlobalObjectDebugText.Add("Sein-Naru Combo: " + SpecificData.SeinNaruComboEnabled.ToString());
+						GlobalObjectDebugText.Add("On Ground: " + SpecificData.IsOnGround.ToString());
+					}
+					else if(GlobalObjectDebug.GetComponent<KillPlayer>() != null)
+					{
+						KillPlayer SpecificData = GlobalObjectDebug.GetComponent<KillPlayer>();
+						GlobalObjectDebugText.Add("Kill Enemies Too: " + SpecificData.KillEnemiesToo.ToString());
+					}
 
-			DashOwlEnemy[] dash_owls = FindObjectsOfType<DashOwlEnemy>();
-			foreach(DashOwlEnemy dash_owl in dash_owls){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(dash_owl.transform.position, dash_owl.StartPosition, dash_owl.DamageDealer.Damage, dash_owl.DamageDealer.PlayerOnly, dash_owl.InsideFrustum, dash_owl.FrustrumOptimized, dash_owl.IsInWater, dash_owl.BoundingBox, WorldCam));
-			}
-
-			}
-
-			if(GlobalEnemyDebugIndexCounter == 2){
-
-			DropSlugEnemy[] drop_slugs = FindObjectsOfType<DropSlugEnemy>();
-			foreach(DropSlugEnemy drop_slug in drop_slugs){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(drop_slug.transform.position, drop_slug.StartPosition, drop_slug.DamageDealer.Damage, drop_slug.DamageDealer.PlayerOnly, drop_slug.InsideFrustum, drop_slug.FrustrumOptimized, drop_slug.IsInWater, drop_slug.BoundingBox, WorldCam));
-			}
-
-			FishEnemy[] fishs = FindObjectsOfType<FishEnemy>();
-			foreach(FishEnemy fish in fishs){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(fish.transform.position, fish.StartPosition, fish.DamageDealer.Damage, fish.DamageDealer.PlayerOnly, fish.InsideFrustum, fish.FrustrumOptimized, fish.IsInWater, fish.BoundingBox, WorldCam));
-			}
-
-			}
-
-			if(GlobalEnemyDebugIndexCounter == 3){
-
-			FloatingRockLaserEnemy[] frock_lasers = FindObjectsOfType<FloatingRockLaserEnemy>();
-			foreach(FloatingRockLaserEnemy frock_laser in frock_lasers){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(frock_laser.transform.position, frock_laser.StartPosition, frock_laser.DamageDealer.Damage, frock_laser.DamageDealer.PlayerOnly, frock_laser.InsideFrustum, frock_laser.FrustrumOptimized, frock_laser.IsInWater, frock_laser.BoundingBox, WorldCam));
-			}
-
-			FloatingRockTurretEnemy[] frock_turrets = FindObjectsOfType<FloatingRockTurretEnemy>();
-			foreach(FloatingRockTurretEnemy frock_turret in frock_turrets){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(frock_turret.transform.position, frock_turret.StartPosition, frock_turret.DamageDealer.Damage, frock_turret.DamageDealer.PlayerOnly, frock_turret.InsideFrustum, frock_turret.FrustrumOptimized, frock_turret.IsInWater, frock_turret.BoundingBox, WorldCam));
-			}
-
-			}
-
-			if(GlobalEnemyDebugIndexCounter == 4){
-
-			GroundEnemy[] grounds = FindObjectsOfType<GroundEnemy>();
-			foreach(GroundEnemy ground in grounds){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(ground.transform.position, ground.StartPosition, ground.DamageDealer.Damage, ground.DamageDealer.PlayerOnly, ground.InsideFrustum, ground.FrustrumOptimized, ground.IsInWater, ground.BoundingBox, WorldCam));
-			}
-
-			JumperEnemy[] jumpers = FindObjectsOfType<JumperEnemy>();
-			foreach(JumperEnemy jumper in jumpers){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(jumper.transform.position, jumper.StartPosition, jumper.DamageDealer.Damage, jumper.DamageDealer.PlayerOnly, jumper.InsideFrustum, jumper.FrustrumOptimized, jumper.IsInWater, jumper.BoundingBox, WorldCam));
-			}
-
-			}
-
-			if(GlobalEnemyDebugIndexCounter == 5){
-
-			KamikazeSootEnemy[] kamikaze_soots = FindObjectsOfType<KamikazeSootEnemy>();
-			foreach(KamikazeSootEnemy kamikaze_soot in kamikaze_soots){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(kamikaze_soot.transform.position, kamikaze_soot.StartPosition, kamikaze_soot.DamageDealer.Damage, kamikaze_soot.DamageDealer.PlayerOnly, kamikaze_soot.InsideFrustum, kamikaze_soot.FrustrumOptimized, kamikaze_soot.IsInWater, kamikaze_soot.BoundingBox, WorldCam));
-			}
-
-			MortarWormEnemy[] mortar_worms = FindObjectsOfType<MortarWormEnemy>();
-			foreach(MortarWormEnemy mortar_worm in mortar_worms){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(mortar_worm.transform.position, mortar_worm.StartPosition, mortar_worm.DamageDealer.Damage, mortar_worm.DamageDealer.PlayerOnly, mortar_worm.InsideFrustum, mortar_worm.FrustrumOptimized, mortar_worm.IsInWater, mortar_worm.BoundingBox, WorldCam));
-			}
-
-
-			}
-
-		if(GlobalEnemyDebugIndexCounter == 6){
-
-
-			OwlEnemy[] owls = FindObjectsOfType<OwlEnemy>();
-			foreach(OwlEnemy owl in owls){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(owl.transform.position, owl.StartPosition, owl.DamageDealer.Damage, owl.DamageDealer.PlayerOnly, owl.InsideFrustum, owl.FrustrumOptimized, owl.IsInWater, owl.BoundingBox, WorldCam));
-			}
-
-			RammingEnemy[] rammings = FindObjectsOfType<RammingEnemy>();
-			foreach(RammingEnemy ramming in rammings){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(ramming.transform.position, ramming.StartPosition, ramming.DamageDealer.Damage, ramming.DamageDealer.PlayerOnly, ramming.InsideFrustum, ramming.FrustrumOptimized, ramming.IsInWater, ramming.BoundingBox, WorldCam));
-			}
-
+				}else{
+					GlobalObjectDebugBox = new Rect(0, 0, 0, 0);
+				}
 
 		}
 
-		if(GlobalEnemyDebugIndexCounter == 7){
-
-
-			SlugEnemy[] slugs = FindObjectsOfType<SlugEnemy>();
-			foreach(SlugEnemy slug in slugs){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(slug.transform.position, slug.StartPosition, slug.DamageDealer.Damage, slug.DamageDealer.PlayerOnly, slug.InsideFrustum, slug.FrustrumOptimized, slug.IsInWater, slug.BoundingBox, WorldCam));
-			}
-
-			SpitterEnemy[] spitters = FindObjectsOfType<SpitterEnemy>();
-			foreach(SpitterEnemy spitter in spitters){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(spitter.transform.position, spitter.StartPosition, spitter.DamageDealer.Damage, spitter.DamageDealer.PlayerOnly, spitter.InsideFrustum, spitter.FrustrumOptimized, spitter.IsInWater, spitter.BoundingBox, WorldCam));
-			}
-
-
-		}
-
-		if(GlobalEnemyDebugIndexCounter == 8){
-
-
-			SwarmEnemy[] swarms = FindObjectsOfType<SwarmEnemy>();
-			foreach(SwarmEnemy swarm in swarms){
-			GlobalEnemyList.Add(new xNyuDebugEnemyData(swarm.transform.position, swarm.StartPosition, swarm.DamageDealer.Damage, swarm.DamageDealer.PlayerOnly, swarm.InsideFrustum, swarm.FrustrumOptimized, swarm.IsInWater, swarm.BoundingBox, WorldCam));
-			}
-
-			WormEnemy[] worms = FindObjectsOfType<WormEnemy>();
-			foreach(WormEnemy worm in worms){
-				GlobalEnemyList.Add(new xNyuDebugEnemyData(worm.transform.position, worm.StartPosition, worm.DamageDealer.Damage, worm.DamageDealer.PlayerOnly, worm.InsideFrustum, worm.FrustrumOptimized, worm.IsInWater, worm.BoundingBox, WorldCam));
-			}
-
-		}
-
-
-
-		}
-
-		//Prepare Door Debug Data
-		if(GlobalDoorDebug && !xnyu_menu_enabled && GlobalDebugSlowDown == 0){
-			//Clear List
-			if(GlobalDoorList.Count > 0) GlobalDoorList.Clear();
-			
-			EnergyDoor[] energy_doors = FindObjectsOfType<EnergyDoor>();
-			foreach(EnergyDoor energy_door in energy_doors){
-				GlobalDoorList.Add(new xNyuDebugDoorData(energy_door.transform.position, "Energy Required: " + energy_door.AmountOfEnergyRequired.ToString(), "Energy Used: " + energy_door.AmountOfEnergyUsed.ToString(), "Distance to Sein: " + energy_door.DistanceToSein.ToString(), "Sein In Range: " + energy_door.SeinInRange.ToString(), "Ori Has Targets: " + energy_door.OriHasTargets.ToString(), WorldCam));
-			}
-
-			DoorWithSlots[] slot_doors = FindObjectsOfType<DoorWithSlots>();
-			foreach(DoorWithSlots slot_door in slot_doors){
-				GlobalDoorList.Add(new xNyuDebugDoorData(slot_door.transform.position, "Orbs Required: " + slot_door.NumberOfOrbsRequired.ToString(), "Orbs Used: " + slot_door.NumberOfOrbsUsed.ToString(), "Distance to Sein: " + slot_door.DistanceToSein.ToString(), "Sein In Range: " + slot_door.SeinInRange.ToString(), "Ori Has Targets: " + slot_door.OriHasTargets.ToString(), WorldCam));
-			}
-
-		}
-
-		//Prepare Teleporter Debug Data
-		if(GlobalTeleporterDebug && !xnyu_menu_enabled && GlobalDebugSlowDown == 0){
-			//Clear List
-			if(GlobalTeleporterList.Count > 0) GlobalTeleporterList.Clear();
-			
-			TeleporterController teleporter_controller = FindObjectOfType<TeleporterController>();
-			foreach(GameMapTeleporter teleporter in teleporter_controller.Teleporters){
-				GlobalTeleporterList.Add(new xNyuDebugTeleporterData(teleporter.WorldPosition, "Activated: " + teleporter.Activated.ToString(), "Identifier: " + teleporter.Identifier.ToString(), "Name: " + teleporter.Name.name.ToString(), "Area Name: " + teleporter.Area.Area.AreaNameString.ToString(), WorldCam));
-			}
-
-		}
-
-		//Prepare Collectable Debug Data
-		if(GlobalCollectablesDebug && !xnyu_menu_enabled && GlobalDebugSlowDown == 0){
-			//Clear List
-			if(GlobalCollectableDebugIndexCounter == 0){
-
-			if(GlobalCollectableList.Count > 0) GlobalCollectableList.Clear();
-			
-			MapStone[] mapstones = FindObjectsOfType<MapStone>();
-			foreach(MapStone mapstone in mapstones){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(mapstone.transform.position, "Ori Duration: " + mapstone.OriDuration.ToString(), "Ori Target: " + mapstone.OriTarget.position.ToString(), "Distance to Sein: " + mapstone.DistanceToSein.ToString(), "Sein In Range: " + mapstone.CurrentState.ToString(), "Ori Has Targets: " + mapstone.OriHasTargets.ToString(), WorldCam));
-			}
-
-			KeystonePickup[] keystones = FindObjectsOfType<KeystonePickup>();
-			foreach(KeystonePickup keystone in keystones){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(keystone.transform.position, "Amount: " + keystone.Amount.ToString(), "Is Collected: " + keystone.IsCollected.ToString(), "Name: " + keystone.name.ToString(), "Completor Position: " + keystone.AreaCompletorPosition.ToString(), "Destroy on Collect: " + keystone.DestroyOnCollect.ToString(), WorldCam));
-			}
-
-			}
-			
-			if(GlobalCollectableDebugIndexCounter == 0){
-
-			MapStonePickup[] mapstone_pickups = FindObjectsOfType<MapStonePickup>();
-			foreach(MapStonePickup mapstone_pickup in mapstone_pickups){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(mapstone_pickup.transform.position, "Amount: " + mapstone_pickup.Amount.ToString(), "Is Collected: " + mapstone_pickup.IsCollected.ToString(), "Name: " + mapstone_pickup.name.ToString(), "Collect Delay: " + mapstone_pickup.DelayBeforeCollectable.ToString(), "Destroy on Collect: " + mapstone_pickup.DestroyOnCollect.ToString(), WorldCam));
-			}
-
-			MaxEnergyContainerPickup[] maxenergys = FindObjectsOfType<MaxEnergyContainerPickup>();
-			foreach(MaxEnergyContainerPickup maxenergy in maxenergys){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(maxenergy.transform.position, "Amount: " + maxenergy.Amount.ToString(), "Is Collected: " + maxenergy.IsCollected.ToString(), "Name: " + maxenergy.name.ToString(), "Collect Delay: " + maxenergy.DelayBeforeCollectable.ToString(), "Destroy on Collect: " + maxenergy.DestroyOnCollect.ToString(), WorldCam));
-			}
-
-			}
-
-			
-			if(GlobalCollectableDebugIndexCounter == 0){
-
-			MaxHealthContainerPickup[] maxhealths = FindObjectsOfType<MaxHealthContainerPickup>();
-			foreach(MaxHealthContainerPickup maxhealth in maxhealths){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(maxhealth.transform.position, "Inside Frustum: " + maxhealth.InsideFrustum.ToString(), "Is Collected: " + maxhealth.IsCollected.ToString(), "Name: " + maxhealth.name.ToString(), "Collect Delay: " + maxhealth.DelayBeforeCollectable.ToString(), "Destroy on Collect: " + maxhealth.DestroyOnCollect.ToString(), WorldCam));
-			}
-
-			ExpOrbPickup[] exporbs = FindObjectsOfType<ExpOrbPickup>();
-			foreach(ExpOrbPickup exporb in exporbs){
-				GlobalCollectableList.Add(new xNyuDebugCollectableData(exporb.transform.position, "Inside Frustum: " + exporb.InsideFrustum.ToString(), "Is Collected: " + exporb.IsCollected.ToString(), "Name: " + exporb.name.ToString(), "Collect Delay: " + exporb.DelayBeforeCollectable.ToString(), "Destroy on Collect: " + exporb.DestroyOnCollect.ToString(), WorldCam));
-			}
-
-			}
-
-		}
-
-		//Set and Reset Global Debug Slow Down
-		if(GlobalEnemyDebugIndexCounter >= 8){
-			GlobalEnemyDebugIndexCounter = 0;
-		}else{
-			GlobalEnemyDebugIndexCounter++;
-		}
-
-		if(GlobalCollectableDebugIndexCounter >= 3){
-			GlobalCollectableDebugIndexCounter = 0;
-		}else{
-			GlobalCollectableDebugIndexCounter++;
-		}
-
-		GlobalEnemyDebugSlowDown++;
-		if(GlobalEnemyDebugSlowDown >= 2) GlobalEnemyDebugSlowDown = 0;
-		GlobalDebugSlowDown++;
-		if(GlobalDebugSlowDown >= 3) GlobalDebugSlowDown = 0;
-		DetailsSlowDown++;
-		if(DetailsSlowDown >= 2) DetailsSlowDown = 0;
 
 		
-		
-
-
-
-
 	}
 
 	public bool HotkeyToFunc(string command){
@@ -1008,10 +856,6 @@ public class xNyuDebugMenu : MonoBehaviour
 
 		xnyu_debug_toggles[0] = false;
 		xnyu_debug_toggles[1] = false;
-		xnyu_debug_toggles[2] = false;
-		xnyu_debug_toggles[3] = false;
-		xnyu_debug_toggles[4] = false;
-		xnyu_debug_toggles[5] = false;
 
 		xnyu_menu_enabled = false;
 
@@ -1252,14 +1096,16 @@ public class xNyuDebugMenu : MonoBehaviour
 	public static float details_box_width;
 
 
+	public Vector3 GlobalObjectDebugMoveLock = Vector3.zero;
 
-	public List<xNyuDebugEnemyData> GlobalEnemyList = new List<xNyuDebugEnemyData>();
+	public GameObject GlobalObjectDebug = null;
 
-	public List<xNyuDebugDoorData> GlobalDoorList = new List<xNyuDebugDoorData>();
+	public bool GlobalObjectDebugSelected = false;
 
-	public List<xNyuDebugTeleporterData> GlobalTeleporterList = new List<xNyuDebugTeleporterData>();
+	public List<string> GlobalObjectDebugText = new List<string>();
 
-	public List<xNyuDebugCollectableData> GlobalCollectableList = new List<xNyuDebugCollectableData>();
+	public Rect GlobalObjectDebugBox = new Rect(0, 0, 0, 0);
+
 
 
 	public bool xnyu_menu_enabled;
@@ -1291,33 +1137,17 @@ public class xNyuDebugMenu : MonoBehaviour
 
 	public bool GlobalTreeDebug = false;
 
-	public bool GlobalEnemyDebug = false;
+	public bool GlobalObjectDebugTrigger = false;
 
 	public bool GlobalCollectablesDebug = false;
 
 
 
-	public bool GlobalDoorDebugFirstInit = false;
-
-	public bool GlobalTeleporterDebugFirstInit = false;
-
-	public bool GlobalTreeDebugFirstInit = false;
-
-	public bool GlobalEnemyDebugFirstInit = false;
-
-	public bool GlobalCollectablesDebugFirstInit = false;
-
-
-
-	public int GlobalDebugSlowDown = 0;
-
-	public int GlobalEnemyDebugSlowDown = 0;
-
-	public int GlobalEnemyDebugIndexCounter = 0;
-
-	public int GlobalCollectableDebugIndexCounter = 0;
-
 	public int DetailsSlowDown = 0;
+
+
+
+	public string debug_string = "";
 
 
 
